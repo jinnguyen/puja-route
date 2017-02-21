@@ -1,0 +1,23 @@
+{
+  "name": "jinnguyen/puja-route",
+  "description": "Puja-Route is a router component, that allow to parse request to module/controller/action",
+  "type": "library",
+  "license": "Apache License 2.0",
+  "keywords": ["Puja", "Route"],
+  "authors": [
+    {
+      "name": "Jin Nguyen",
+      "email": "w2ajax@gmail.com"
+    }
+  ],
+  "minimum-stability": "stable",
+  "require": {
+    "jinnguyen/puja-stdlib": "*"
+  },
+  "autoload": {
+    "psr-4": {
+      "Puja\\Route\\": "src/",
+      "Puja\\Route\\Demo\\": "demo/"
+    }
+  }
+}
