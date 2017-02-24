@@ -147,6 +147,10 @@ class Builder extends RouterAbstract
 	        }
 
 	        $controllerId = substr(basename($file), 0, -14);
+			if (in_array($controllerId, $this->config['exclude_controller'])) {
+				continue;
+			}
+
 	        $controllerCls = $this->getControllerCls($moduleId, $controllerId);
 			$controllerMap[$controllerId] = $controllerCls;
 	    }

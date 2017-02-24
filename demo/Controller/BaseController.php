@@ -4,6 +4,16 @@ class BaseController
 {
 	public function __construct($id)
 	{
-		echo '__construct'; exit;
+
+	}
+
+	public function beforeAction()
+	{
+
+	}
+
+	public function afterAction()
+	{
+		
 	}
 }

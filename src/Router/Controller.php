@@ -42,6 +42,9 @@ class Controller extends RouterAbstract
             }
 
             $actionId = substr($method, 0, -6);
+            if (in_array($actionId, $this->config['exclude_action'])) {
+                continue;
+            }
             $this->getRoute($controllerCls, $route, $moduleId, $controllerId, $actionId);
         }
 
@@ -58,15 +61,46 @@ class Controller extends RouterAbstract
 		$actionId = null,
 		$annotation = false
 	) {
-        if ($controllerId == 'Index') {
-            $controllerId = null;
-        }
+
 
         if ($actionId == 'index') {
             $actionId = null;
         }
 
-        list ($key, $route) = $this->entity->build(array(
+        list ($key, $router) = $this->getEntry(
+            $controllerCls,
+            $route,
+            $moduleId,
+            $controllerId,
+            $actionId,
+            $annotation
+        );
+        $this->routes[$key] = $router;
+
+        if ($controllerId == 'Index') {
+            $controllerId = null;
+            list ($key, $router) = $this->getEntry(
+                $controllerCls,
+                $route,
+                $moduleId,
+                $controllerId,
+                $actionId,
+                $annotation
+            );
+            $this->routes[$key] = $router;
+        }
+	}
+
+    protected function getEntry(
+        $controllerCls,
+        $route = null,
+        $moduleId = null,
+        $controllerId = null,
+        $actionId = null,
+        $annotation = false
+    )
+    {
+        return $this->entity->build(array(
             'route' => $route,
             'controller' => $controllerCls,
             'moduleId' => $moduleId,
@@ -74,9 +108,7 @@ class Controller extends RouterAbstract
             'actionId' => $actionId,
             'annotation' => $annotation,
         ));
-
-        $this->routes[$key] = $route;
-	}
+    }
 
 
 	protected function buildFromActions($controllerCls, $route, $moduleId, $controllerId)

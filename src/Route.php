@@ -7,6 +7,8 @@ class Route
         'root_namespace' => 'Puja\\Route\\Demo\\',
         'default_controller' => 'Index',
         'default_action' => 'index',
+        'exclude_controller' => array(),
+        'exclude_action' => array(),
         'controller_dir' => null,
         'module_dir' => null,
         'cache_dir' => null,
@@ -18,7 +20,7 @@ class Route
             throw new Exception('$config[cache_dir] is required');
         }
 
-        $this->config = array_intersect_key($config, $this->config);
+        $this->config = array_merge($this->config, $config);
         $this->builder = new Router\Builder($this);
     }
 
