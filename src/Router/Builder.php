@@ -10,10 +10,10 @@ class Builder extends RouterAbstract
 	 * @var Controller
 	 */
 	protected $controllerBuilder;
-	protected $cachedFile;
+	protected static $cachedFile;
 	protected function init()
 	{
-		$this->cachedFile = rtrim($this->config['cache_dir'], DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR . 'routes.php';
+		self::$cachedFile = rtrim($this->config['cache_dir'], DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR . 'routes.php';
 		$this->controllerBuilder = new Controller($this->route);
 	}
 
@@ -33,7 +33,7 @@ class Builder extends RouterAbstract
 
 	public function getRoute($uri = null)
 	{
-		$routeMap = $this->getRoutes();
+		$routeMap = static::getRoutes();
 
 		if (empty($uri)) {
 			return $this->getRouteResponse($uri, $routeMap['']);
@@ -84,7 +84,7 @@ class Builder extends RouterAbstract
 
 	public function buildRoutes()
 	{
-		$file = new File\Info($this->cachedFile);
+		$file = new File\Info(self::$cachedFile);
 		if ($file->isFile()) {
 			return;
 		}
@@ -113,12 +113,12 @@ class Builder extends RouterAbstract
         return;
 	}
 
-	protected function getRoutes()
+	public static function getRoutes()
 	{
 
-		$file = new File\Info($this->cachedFile);
+		$file = new File\Info(self::$cachedFile);
 		if ($file->isFile()) {
-			return include $this->cachedFile;
+			return include self::$cachedFile;
 		}
 
 		throw new Exception('Must call Puja\Route\Route::build() before call Puja\Route\Route::getRoute()');

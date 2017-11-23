@@ -43,4 +43,9 @@ class Route
     {
         return $this->builder->getRoute($route);
     }
+
+    public static function getRoutes()
+    {
+        return Router\Builder::getRoutes();
+    }
 }
