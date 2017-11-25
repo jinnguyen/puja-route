@@ -160,11 +160,13 @@ class Builder extends RouterAbstract
 		}
 
 		if (!empty($controllerMap[$this->config['default_controller']])) {
-			$indexElm = array_pop($controllerMap);
-			array_unshift($controllerMap, $indexElm);
+			$indexElm = $controllerMap[$this->config['default_controller']];
+			unset($controllerMap[$this->config['default_controller']]);
 			$keys = array_keys($controllerMap);
-			$keys[0] = $this->config['default_controller'];
-			$controllerMap = array_combine($keys, $controllerMap);
+			$values = array_values($controllerMap);
+			array_unshift($keys, $this->config['default_controller']);
+			array_unshift($values, $indexElm);
+			$controllerMap = array_combine($keys, $values);
 		}
 
 		foreach ($controllerMap as $controllerId => $controllerCls) {
